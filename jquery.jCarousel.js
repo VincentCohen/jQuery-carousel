@@ -78,7 +78,6 @@
         "goNext": function (options) {
             // get options
             var options = optionss.options;
-            console.log(options.activeSlide);
 
             // calculate what slide to go to
             var activeSlide = options.activeSlide + 1;
@@ -89,7 +88,6 @@
         "goPrevious": function (options) {
             // get options
             var options = optionss.options;
-            console.log(options.activeSlide);
 
             // calculate what slide to go to
             var activeSlide = options.activeSlide - 1;
@@ -98,12 +96,9 @@
             optionss.goToSlide(activeSlide);
         },
         "goToSlide": function(activeSlide){
-             // get options
-            var options = optionss.options;
-
-            options.elemNav.find("li").removeClass("active");
-            options.elemNav.find('li:eq('+activeSlide+')').addClass("active");
             
+            // get options
+            var options = optionss.options;           
             // calculate slideTo
             var slideTo =  activeSlide * options.width;
 
@@ -114,10 +109,35 @@
                     "left": "-"+ slideTo
                 });
 
-                options.currentSlideOffset = slideTo;
-                options.activeSlide = activeSlide;
+            }else{
+
+                if(slideTo > options.maxSlideWidth){
+                    // start at beginning
+                    slideTo = 0;
+                    activeSlide = 0;
+                }else{
+                    // jump to end
+                    slideTo = options.maxSlideWidth;
+                    activeSlide = options.amountOfSlides - 1;
+                }
+
+                // slide!
+                $(options.panelIdentifier).animate({
+                    "left": "-"+ slideTo
+                });
+
             }
 
+            options.elemNav.find("li").removeClass("active");
+
+            if(activeSlide == 0){
+                options.elemNav.find('li:first-child').addClass("active");
+            }else{
+                options.elemNav.find('li:eq('+activeSlide+')').addClass("active");
+            }
+
+            options.currentSlideOffset = slideTo;
+            options.activeSlide = activeSlide;
             // save options
             optionss.options = options;
         }
