@@ -1,6 +1,6 @@
 #jQuery carousel plugin
 
-## easy,small,simple, not infinite.
+easy,small,simple, not infinite.
 
 #TODO: Make it infinite.
 
