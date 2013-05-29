@@ -24,11 +24,30 @@
 			$(".next").click(function(){
 				carousel.jCarousel("goNext");
 			});
+
+			var options2 = {
+				height:100,
+				itemsPerSlide:4,	
+				navigationIdentifier: "#nav2"
+			}
+			
+			var carousel2 = $('#slider2').jCarousel(options2);
+
+			$(".prev2").click(function(){
+				carousel2.jCarousel("goPrevious");
+			});
+
+			$(".next2").click(function(){
+				carousel2.jCarousel("goNext");
+			});
 			
 		});
 		</script>
 		<style>
-		#slider{
+		body{
+			font-family: arial, sans-serif
+		}
+		#slider, #slider2{
 			list-style:none;
 			position:relative;
 			margin:0;
@@ -38,7 +57,7 @@
 			float:left;
 		}
 
-		#slider li{
+		#slider li, #slider2 li{
 			float:left;
 			margin:0 5px ;
 			width:200px;
@@ -89,5 +108,49 @@
 
 		<a class="next">next</a>
 
+		<hr/>
+
+<div id="a" style="background:#e2e2e2;padding:10px">
+		<div id="nav2"></div>
+
+		<ul id="slider2">
+			<li> 
+				<img src="http://placehold.it/200x100/222222">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/333333">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/111111">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/444444">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/666666">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/777777">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/888888">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/999999">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/121212">
+			</li>
+			<li> 
+				<img src="http://placehold.it/200x100/131313">
+			</li>
+		</ul>
+
+		<a class="prev2">previous</a>
+
+		<BR/><BR/>
+
+		<a class="next2">next</a>
+	</div>
 	</body>
 </html>
