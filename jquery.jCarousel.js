@@ -34,14 +34,17 @@
             options.panelIdentifier = "#"+$(this).attr("id");
 
             // set the window the slider is containing
-            $(this).wrap('<div class="windowWrapper" id="'+options.windowIdentifier+'"/>')
-            $(this).parent().css({
+            $elemWindow = $(this).wrap('<div class="windowWrapper" id="'+options.windowIdentifier+'"/>')
+            $elemPanel = $(this).parent().css({
                 width: options.width,
                 height: options.height,
                 position: 'relative',
                 overflow: 'hidden',
                 background: 'red'
             });
+
+            options.elemWindow = $elemWindow;
+            options.elemPanel = $elemPanel;
 
             // add navigation
             $elemNavigation = $("<ul>", {class:"navigation"});
@@ -105,7 +108,7 @@
             // check if should slide            
             if(slideTo >= 0 && slideTo <= options.maxSlideWidth){
                 // slide!
-                $(options.panelIdentifier).animate({
+                options.elemWindow.animate({
                     "left": "-"+ slideTo
                 });
 
@@ -122,11 +125,14 @@
                 }
 
                 // slide!
-                $(options.panelIdentifier).animate({
+                options.elemWindow.animate({
                     "left": "-"+ slideTo
                 });
 
             }
+
+            console.log(options.panelIdentifier);
+            console.log(options.elemWindow);
 
             options.elemNav.find("li").removeClass("active");
 
