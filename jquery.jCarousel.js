@@ -1,17 +1,29 @@
 ;(function($, window, document, undefined){
+    
+    /*
+    var defaults = {
+        width:700,
+        height:600,
+        nextBtn: '.next',
+        prevBtn: '.prev',
+        itemsPerSlide: false,
+        navigationIdentifier: "#navigationContainer"
+    };
 
-    var optionss = {
-        "defaults":{
+    var settings = {};*/
+
+    var methods = {
+        "defaults": {
             width:700,
             height:600,
-            nextBtn: '.next',
-            prevBtn: '.prev',
             itemsPerSlide: false,
             navigationIdentifier: "#navigationContainer"
         },
-        "options": {},
+        "settings": {},
         "init": function (options) {
-            options = $.extend({}, this.defaults, options);
+            methods.settings = $.extend({}, methods.defaults, options);
+
+            var options = methods.settings;
             
             // get children
             var elemChildren =  $(this).children();
@@ -61,7 +73,7 @@
                 $elemNavItem.text(i);
 
                 $elemNavItem.bind("click", function(event){
-                    optionss.goToSlide($(this).attr("data-slide"));
+                    methods.goToSlide($(this).attr("data-slide"));
                 });
 
                 $elemNavigation.append($elemNavItem);
@@ -76,93 +88,95 @@
             options.currentSlideOffset = 0;
             
             options.maxSlideWidth = options.width * (options.amountOfSlides - 1); // counting starts at 0 not 1
-            optionss.options = options;
+            
+            methods.settings = options;
+            $(this).data("settings", options);
+            
         },
         "goNext": function (options) {
             // get options
-            var options = optionss.options;
-
+            var settings = methods.settings;
             // calculate what slide to go to
-            var activeSlide = options.activeSlide + 1;
+            var activeSlide = settings.activeSlide + 1;
 
             // slide it
-            optionss.goToSlide(activeSlide);
+            methods.goToSlide(activeSlide);
         },
         "goPrevious": function (options) {
             // get options
-            var options = optionss.options;
-
+            var settings = methods.settings;
+            
             // calculate what slide to go to
-            var activeSlide = options.activeSlide - 1;
+            var activeSlide = settings.activeSlide - 1;
 
             // slide it
-            optionss.goToSlide(activeSlide);
+            methods.goToSlide(activeSlide);
         },
         "goToSlide": function(activeSlide){
-            
-            // get options
-            var options = optionss.options;           
+
+            var settings = methods.settings;
+
+            console.log(settings);
+
             // calculate slideTo
-            var slideTo =  activeSlide * options.width;
+            var slideTo =  activeSlide * settings.width;
 
             // check if should slide            
-            if(slideTo >= 0 && slideTo <= options.maxSlideWidth){
+            if(slideTo >= 0 && slideTo <= settings.maxSlideWidth){
                 // slide!
-                options.elemWindow.animate({
+                settings.elemWindow.animate({
                     "left": "-"+ slideTo
                 });
 
             }else{
 
-                if(slideTo > options.maxSlideWidth){
+                if(slideTo > settings.maxSlideWidth){
                     // start at beginning
                     slideTo = 0;
                     activeSlide = 0;
                 }else{
                     // jump to end
-                    slideTo = options.maxSlideWidth;
-                    activeSlide = options.amountOfSlides - 1;
+                    slideTo = settings.maxSlideWidth;
+                    activeSlide = settings.amountOfSlides - 1;
                 }
 
                 // slide!
-                options.elemWindow.animate({
+                settings.elemWindow.animate({
                     "left": "-"+ slideTo
                 });
-
             }
 
-            console.log(options.panelIdentifier);
-            console.log(options.elemWindow);
-
-            options.elemNav.find("li").removeClass("active");
+            settings.elemNav.find("li").removeClass("active");
 
             if(activeSlide == 0){
-                options.elemNav.find('li:first-child').addClass("active");
+                settings.elemNav.find('li:first-child').addClass("active");
             }else{
-                options.elemNav.find('li:eq('+activeSlide+')').addClass("active");
+                settings.elemNav.find('li:eq('+activeSlide+')').addClass("active");
             }
 
-            options.currentSlideOffset = slideTo;
-            options.activeSlide = activeSlide;
+            settings.currentSlideOffset = slideTo;
+            settings.activeSlide = activeSlide;
+            
             // save options
-            optionss.options = options;
+            methods.settings = settings;
         }
     };
 
-    $.fn.jCarousel = function(options) { 
+    $.fn.jCarousel = function(method) { 
         var args = arguments;
         var argss = Array.prototype.slice.call(args, 1);
 
         return this.each(function() {
             var $this = $(this);  // Might make sense to ignore this and just pass `this` to the following things
-            if (optionss[options]) {
-                optionss[options].apply($this, argss);
+
+            if (methods[method]) {
+                methods[method].apply($this, argss);
             }
-            else if (typeof options === "object" || !options) {
-                optionss.init.apply($this, args);
+            else if (typeof method === "object" || !method) {
+                methods.init.apply($this, args);
             }
             else {
-                $.error("options " + options + " does not exist on jQuery.jCarousel");
+                $.error("method " + method + " does not exist on jQuery.jCarousel");
             }
         });
     };
