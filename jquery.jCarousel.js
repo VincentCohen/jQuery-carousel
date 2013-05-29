@@ -69,7 +69,7 @@
             options.elemNav = $elemNavigation;
 
             // save options
-            options.activeSlide = 1;
+            options.activeSlide = 0;
             options.currentSlideOffset = 0;
             
             options.maxSlideWidth = options.width * (options.amountOfSlides - 1); // counting starts at 0 not 1
@@ -78,6 +78,7 @@
         "goNext": function (options) {
             // get options
             var options = optionss.options;
+            console.log(options.activeSlide);
 
             // calculate what slide to go to
             var activeSlide = options.activeSlide + 1;
@@ -88,6 +89,7 @@
         "goPrevious": function (options) {
             // get options
             var options = optionss.options;
+            console.log(options.activeSlide);
 
             // calculate what slide to go to
             var activeSlide = options.activeSlide - 1;
