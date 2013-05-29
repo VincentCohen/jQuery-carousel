@@ -66,6 +66,8 @@
 
             $(options.navigationIdentifier).append($elemNavigation);
 
+            options.elemNav = $elemNavigation;
+
             // save options
             options.activeSlide = 1;
             options.currentSlideOffset = 0;
@@ -75,49 +77,31 @@
         },
         "goNext": function (options) {
             // get options
-            var options = $.extend({}, optionss.options, options);  
-            // calculate slideTo 
-            var slideTo =  options.width * options.activeSlide;
+            var options = optionss.options;
 
-            // check if should slide or not
-            if(slideTo <= options.maxSlideWidth){               
-                // slide!
-                $(options.panelIdentifier).animate({
-                    "left": "-"+ slideTo
-                });
+            // calculate what slide to go to
+            var activeSlide = options.activeSlide + 1;
 
-                options.currentSlideOffset = slideTo;
-                options.activeSlide = options.activeSlide + 1;
-            }
-
-            //var childClones = $(this).find('li:lt('+opions.itemsPerSlide+')');
-
-            // save options         
-            optionss.options = options;
+            // slide it
+            optionss.goToSlide(activeSlide);
         },
         "goPrevious": function (options) {
             // get options
-            var options = $.extend({}, optionss.options, options);  
-            // calculate slideTo
-            var slideTo =  options.currentSlideOffset - options.width;
-            // check if should slide            
-            if(slideTo >= 0){
-                // slide!
-                $(options.panelIdentifier).animate({
-                    "left": "-"+ slideTo
-                });
+            var options = optionss.options;
 
-                options.currentSlideOffset = slideTo;
-                options.activeSlide = options.activeSlide - 1;
-            }
+            // calculate what slide to go to
+            var activeSlide = options.activeSlide - 1;
 
-            // save options
-            optionss.options = options;
+            // slide it
+            optionss.goToSlide(activeSlide);
         },
         "goToSlide": function(activeSlide){
              // get options
-            var options = optionss.options;  
+            var options = optionss.options;
 
+            options.elemNav.find("li").removeClass("active");
+            options.elemNav.find('li:eq('+activeSlide+')').addClass("active");
+            
             // calculate slideTo
             var slideTo =  activeSlide * options.width;
 
