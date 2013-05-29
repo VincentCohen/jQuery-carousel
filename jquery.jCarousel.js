@@ -7,6 +7,7 @@
             nextBtn: '.next',
             prevBtn: '.prev',
             itemsPerSlide: false,
+            navigationIdentifier: "#navigationContainer"
         },
         "options": {},
         "init": function (options) {
@@ -23,6 +24,9 @@
                 options.width = $(elemChildren[0]).outerWidth(true) * options.itemsPerSlide;
             }
             
+            // set amount of slides
+            options.amountOfSlides = Math.round(elemChildren.length / options.itemsPerSlide);
+
             // set panel width
             $(this).width(elemParentWidth);
 
@@ -39,10 +43,33 @@
                 background: 'red'
             });
 
+            // add navigation
+            $elemNavigation = $("<ul>", {class:"navigation"});
+
+            for (var i = 0; i < options.amountOfSlides; i++){
+                
+                if(i == 0){
+                    $elemNavItem = $("<li>", {class: "nav_item active panel"+i});
+                }else{
+                    $elemNavItem = $("<li>", {class: "nav_item panel"+i});
+                }
+
+                $elemNavItem.attr("data-slide", i);
+                $elemNavItem.text(i);
+
+                $elemNavItem.bind("click", function(event){
+                    optionss.goToSlide($(this).attr("data-slide"));
+                });
+
+                $elemNavigation.append($elemNavItem);
+            }
+
+            $(options.navigationIdentifier).append($elemNavigation);
+
             // save options
             options.activeSlide = 1;
             options.currentSlideOffset = 0;
-            options.amountOfSlides = Math.round(elemChildren.length / options.itemsPerSlide);
+            
             options.maxSlideWidth = options.width * (options.amountOfSlides - 1); // counting starts at 0 not 1
             optionss.options = options;
         },
@@ -82,6 +109,27 @@
 
                 options.currentSlideOffset = slideTo;
                 options.activeSlide = options.activeSlide - 1;
+            }
+
+            // save options
+            optionss.options = options;
+        },
+        "goToSlide": function(activeSlide){
+             // get options
+            var options = optionss.options;  
+
+            // calculate slideTo
+            var slideTo =  activeSlide * options.width;
+
+            // check if should slide            
+            if(slideTo >= 0 && slideTo <= options.maxSlideWidth){
+                // slide!
+                $(options.panelIdentifier).animate({
+                    "left": "-"+ slideTo
+                });
+
+                options.currentSlideOffset = slideTo;
+                options.activeSlide = activeSlide;
             }
 
             // save options
