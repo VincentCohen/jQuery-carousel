@@ -2,7 +2,6 @@
 
     var optionss = {
         "defaults":{
-            label: 'yeahhhhh',
             width:700,
             height:600,
             nextBtn: '.next',
