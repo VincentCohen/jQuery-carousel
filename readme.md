@@ -1,6 +1,7 @@
 #jQuery carousel plugin
 
-easy,small,simple, not infinite.
+This is an easy,small,simple, and not yet infinite slider. Started out as a test on how to create jQuery plugins and seems to do what it needs to do.
+Everyone is welcome to improve and or edit this small set of code to suit your needs. Tips on creating better plugins are welcome.
 
 #TODO: Make it infinite.
 
